@@ -1,0 +1,18 @@
+﻿@model OrdinationApp.ViewModels.BulkUploadViewModel;
+
+<div class="card mx-2 my-2 p-5">
+    <form method="post" asp-controller="Approvals" asp-action="BulkUpload" enctype="multipart/form-data">
+        <h2 class="text-primary">Bulk Upload Members Approvals</h2>
+        <div class="row">
+
+            <div class="col-4">
+                <label asp-for="upload">Upload Excel File:</label>
+                <input type="file" name="upload" class="form-control" />
+                <span class="text-danger" asp-validation-for="upload"></span>
+            </div>
+        </div>
+
+
+        <button class="btn btn-success mt-3" type="submit">Upload Approvals</button>
+    </form>
+</div>

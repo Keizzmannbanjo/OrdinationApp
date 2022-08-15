@@ -1,0 +1,61 @@
+﻿@model OrdinationApp.ViewModels.IndexViewModel;
+
+
+<div class="row mb-4 mt-4 ">
+    <form class="col-md-6 offset-md-3 border border-2 border-secondary rounded rounded-3 p-2" asp-controller="Approvals" asp-action="Index" method="get">
+        <div class="row d-flex align-items-center">
+            <div class="col-3">
+                <span>
+                    Province:
+                </span>
+                <select class="form-control" name="provinceFilter" asp-items="Model.provinceList">
+                    <option value="">Select</option>
+                </select>
+            </div>
+            <div class="col-3">
+                <span>
+                    Rank:
+                </span>
+                <select class="form-control" name="rankFilter" asp-items="Model.rankList">
+                    <option value="">Select</option>
+                </select>
+            </div>
+            <div class="col-3 align-self-end">
+                <button type="submit" class="btn btn-primary">Apply Filters</button>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+<table class="table table-bordered text-center table-striped">
+    <thead class="bg-secondary">
+        <tr>
+            <th>Current Rank</th>
+            <th>First Name</th>
+            <th>Surname</th>
+            <th>Gender</th>
+            <th>Other Name</th>
+            <th>Target Rank</th>
+            <th>Payment Status</th>
+            <th></th>
+        </tr>
+
+    </thead>
+    <tbody>
+        @foreach (var obj in Model.members)
+        {
+            <tr>
+                <td>@obj.CurrentRank.Title</td>
+                <td>@obj.FirstName</td>
+                <td>@obj.Surname</td>
+                <td>@obj.Othername</td>
+                <td>@obj.Gender</td>
+                <td>@obj.TargetRank.Title</td>
+                <td>@obj.Status</td>
+                <td><a asp-controller="Approvals" asp-action="EditDetails" asp-route-id="@obj.Id" class="btn btn-info">Edit Details</a></td>
+            </tr>
+        }
+    </tbody>
+</table>
+

@@ -1,0 +1,79 @@
+﻿@model OrdinationApp.ViewModels.SingleUploadViewModel;
+
+<link rel="stylesheet" href="~/yearpicker/yearpicker.css" />
+<script src="~/lib/jquery/jquery.min.js"></script>
+<script src="~/yearpicker/yearpicker.js"></script>
+
+<div class="container">
+    <form method="post" asp-action="SingleUpload" class="card p-4">
+        <h3 class="mb-4">Add Single Member Approval</h3>
+        <div class="form-group row mb-3">
+            <label class="col-md-2" asp-for="FirstName"> First Name: </label>
+            <div class="col-md-6">
+                <input asp-for="FirstName" class="form-control" />
+                <span class="text-danger" asp-validation-for="FirstName"></span>
+            </div>
+        </div>
+        <div class="form-group row mb-3">
+            <label class="col-md-2" asp-for="Surname"> Surname:</label>
+            <div class="col-md-6">
+                <input asp-for="Surname" class="form-control" />
+                <span class="text-danger" asp-validation-for="Surname"></span>
+            </div>
+        </div>
+        <div class="form-group row mb-3">
+            <label class="col-md-2" asp-for="Othername"> Other Name: </label>
+            <div class="col-md-6">
+                <input asp-for="Othername" class="form-control" />
+                <span class="text-danger" asp-validation-for="Othername"></span>
+            </div>
+        </div>
+
+        <div class="form-group row mb-3">
+            <label for="Gender" class="col-md-2">Gender: </label>
+            <div class="col-md-6">
+                <select asp-for="Gender" class="form-control">
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                </select>
+                <span class="text-danger" asp-validation-for="Gender"></span>
+            </div>
+
+        </div>
+        <div class="form-group row mb-3">
+            <label class="col-md-2" asp-for="CurrentRankYear"> Current Rank Year: </label>
+            <div class="col-md-6">
+                <input type="number" asp-for="CurrentRankYear" class="form-control yearpicker" value="" />
+                <span class="text-danger" asp-validation-for="CurrentRankYear"></span>
+            </div>
+        </div>
+        <div class="form-group row mb-3">
+            <label class="col-md-2" asp-for="ProvinceName">Province: </label>
+            <div class="col-md-6">
+                <select asp-for="ProvinceName" asp-items="Model.ProvinceList" class="form-control"></select>
+                <span class="text-danger" asp-validation-for="ProvinceName"></span>
+            </div>
+
+        </div>
+        <div class="form-group row mb-3">
+            <label asp-for="CurrentRankTitle" class="col-md-2">Current Rank: </label>
+            <div class="col-md-6">
+                <select asp-for="CurrentRankTitle" asp-items="Model.RankList" class="form-control"></select>
+                <span class="text-danger" asp-validation-for="CurrentRankTitle"></span>
+            </div>
+        </div>
+        <div class="form-group row mb-3">
+            <label asp-for="TargetRankTitle" class="col-md-2">Next Rank: </label>
+            <div class="col-md-6">
+                <select asp-for="TargetRankTitle" asp-items="Model.RankList" class="form-control"></select>
+                <span class="text-danger" asp-validation-for="TargetRankTitle"></span>
+            </div>
+        </div>
+
+        <button type="submit" class="btn btn-success w-50">Add Member</button>
+    </form>
+</div>
+
+<script type="text/javascript">
+    $('.yearpicker').yearpicker();
+</script>

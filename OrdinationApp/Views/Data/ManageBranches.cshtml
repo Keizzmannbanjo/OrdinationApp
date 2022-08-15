@@ -1,0 +1,39 @@
+﻿@*@model OrdinationApp.ViewModels.ManageBranchesViewModel;
+
+<section>
+    <form method="post" asp-controller="Data" asp-action="ManageBranches" class="mb-3 border rounded rounded-3 border-3 p-3">
+        <h3 class="mb-3">Add New Branch</h3>
+        <div class="row">
+            <div class="col-md-6">
+                <div class="form-group row mb-3">
+                    <label class="form-label col">Choose Province</label>
+                    <select asp-for="ProvinceName" asp-items="@Model.ProvinceList" class="form-control col"></select>
+                    <span class="text-danger" asp-validation-for="ProvinceName"></span>
+                </div>
+                <div class="form-group row mb-3">
+                    <label class="form-label col">New Branch: </label>
+                    <input asp-for="NewBranchName" class="col form-control" />
+                    <span class="text-danger" asp-validation-for="NewBranchName"></span>
+                </div>
+                <button type="submit" class="btn btn-success">Add Branch</button>
+            </div>
+        </div>
+    </form>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Branch Name</th>
+                <th>Province</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model.Branches)
+            {
+                <tr>
+                    <td>@obj.Name</td>
+                    <td>@obj.ProvinceName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>*@

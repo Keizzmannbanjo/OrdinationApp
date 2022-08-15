@@ -1,0 +1,81 @@
+﻿@{
+    ViewBag.Title = "Register";
+    Layout = "~/Views/Shared/_LoginLayout.cshtml";
+
+}
+@model OrdinationApp.ViewModels.RegisterUserViewModel;
+
+
+
+<div class="container">
+    <div class="card w-50 mx-auto">
+        <h3 class="text-center my-3">Register user</h3>
+        <form method="post" class="pt-2 px-5 pb-5">
+            <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+            <div class="mb-3 w-75">
+                <label>First Name:</label>
+                <input class="form-control" asp-for="FirstName" placeholder="Enter your First Name" />
+                <span class="text-danger" asp-validation-for="FirstName"></span>
+            </div>
+            <div class="mb-3  w-75">
+                <label>Surname:</label>
+
+                <input class="form-control" asp-for="Surname" placeholder="Enter your Surname" />
+                <span class="text-danger" asp-validation-for="Surname"></span>
+            </div>
+            <div class="mb-3  w-75">
+                <label>Last Name:</label>
+
+                <input class="form-control" asp-for="LastName" placeholder="Enter your Last Name" />
+                <span class="text-danger" asp-validation-for="LastName"></span>
+            </div>
+            <div class="mb-3  w-75">
+                <label>Username:</label>
+
+                <input class="form-control" asp-for="Username" placeholder="Enter your Username" />
+                <span class="text-danger" asp-validation-for="Username"></span>
+            </div>
+            <div class="mb-3  w-75">
+                <label>Email:</label>
+
+                <input class="form-control" asp-for="Email" placeholder="Enter your Email" />
+                <span class="text-danger" asp-validation-for="Email"></span>
+            </div>
+            <div class="mb-3  w-75">
+                <label asp-for="RankTitle" class="form-label"></label>
+                <div>
+                    <select class="form-control" asp-for="RankTitle" asp-items="@Model.RankList"></select>
+                    <span class="text-danger" asp-validation-for="RankTitle"></span>
+                </div>
+            </div>
+            <div class="mb-3  w-75">
+                <label asp-for="ProvinceName" class="form-label"></label>
+                <div>
+                    <select class="form-control" asp-for="ProvinceName" asp-items="@Model.ProvinceList"></select>
+                    <span class="text-danger" asp-validation-for="ProvinceName"></span>
+                </div>
+            </div>
+            <div class="mb-3  w-75">
+                <label asp-for="Role" class="form-label"></label>
+                <div>
+                    <select class="form-control" asp-for="Role" asp-items="@Model.RoleList">
+                    </select>
+                    <span class="text-danger" asp-validation-for="Role"></span>
+                </div>
+            </div>
+            <div class="mb-3  w-75">
+                <label>Password:</label>
+                <input class="form-control" asp-for="Password" placeholder="Enter Password" />
+                <span class="text-danger" asp-validation-for="Password"></span>
+            </div>
+            <div class="mb-3  w-75">
+                <label>Confirm Password:</label>
+
+                <input class="form-control" asp-for="ConfirmPassword" placeholder="Confirm  Password" />
+                <span class="text-danger" asp-validation-for="ConfirmPassword"></span>
+            </div>
+            <button class="d-block w-25  btn btn-success" type="submit">Register</button>
+        </form>
+    </div>
+
+</div>

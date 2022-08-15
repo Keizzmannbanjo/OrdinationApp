@@ -1,0 +1,36 @@
+﻿@model OrdinationApp.ViewModels.EditBillViewModel;
+
+<div class="container border border-secondary border-3 rounded p-5">
+    <h3 class="text-primary"> Edit  Bill</h3>
+    <form method="post" asp-controller="Data" asp-action="EditBill">
+        <div class="text-danger" asp-validation-summary="ModelOnly"></div>
+        <input asp-for="Id" hidden />
+
+        <div class="row mb-3">
+            <label class="col-3">Ordination Fee: </label>
+            <div class="col-4">
+                <input  class="form-control" asp-for="OrdinationFee" />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-3">Training Fee: </label>
+            <div class="col-4">
+                <input class="form-control" asp-for="TrainingFee" />
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-3">Wooden Staff Fee: </label>
+            <div class="col-4">
+                <input class="form-control" asp-for="WoodenStaffPrice" />
+
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label class="col-3">Iron Staff Fee: </label>
+            <div class="col-4">
+                <input class="form-control" asp-for="IronStaffPrice" />
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success">Update</button>
+    </form>
+</div>

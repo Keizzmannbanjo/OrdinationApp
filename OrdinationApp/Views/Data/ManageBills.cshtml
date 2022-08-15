@@ -1,0 +1,37 @@
+﻿@model OrdinationApp.ViewModels.ManageBillsViewModel;
+
+<section>
+    <div class="d-flex justify-content-between p-5">
+        <h3 class="text-primary">Ordination Bills</h3>
+        <a asp-controller="Data" asp-action="AddBill" class="btn btn-primary">Add New Bill</a>
+    </div>
+    @if (Model.Bills.Count() != 0)
+    {
+        <table class="table table-bordered table-striped text-center">
+            <thead>
+            <th>Rank</th>
+            <th>Ordination Fee (#)</th>
+            <th>Training Fee (#)</th>
+            <th>Wooden Staff Fee (#)</th>
+            <th>Iron Staff Fee (#)</th>
+            <th></th>
+            </thead>
+            @foreach (var obj in Model.Bills)
+            {
+                <tr>
+                    <td>@obj.RankTitle</td>
+                    <td>@obj.OrdinationFee</td>
+                    <td>@obj.TrainingFee</td>
+                    <td>@obj.WoodenStaffPrice</td>
+                    <td>@obj.IronStaffPrice</td>
+                    <td><a asp-route-id="@obj.Id" asp-action="EditBill" asp-controller="Data" class="btn btn-info">Edit</a></td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <p>Sorry, No Bills Available...</p>
+    }
+
+</section>

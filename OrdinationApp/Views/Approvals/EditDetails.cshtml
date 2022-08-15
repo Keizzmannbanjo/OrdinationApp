@@ -1,0 +1,78 @@
+﻿@model OrdinationApp.ViewModels.EditDetailsViewModel;
+
+<form method="post" asp-controller="Approvals" asp-action="EditDetails" class="m-5">
+    <h4 class="mb-3">Edit Profile</h4>
+    <input hidden asp-for="Id" />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="row mb-3">
+                <div class="col">
+                    <label class="mb-1">First Name:</label>
+                    <input asp-for="FirstName" class="form-control" />
+                <span class="text-danger" asp-validation-for="FirstName"></span>
+
+                </div>
+                <div class="col">
+                    <label class="mb-1">Surname:</label>
+                    <input asp-for="Surname" class="form-control" />
+                <span class="text-danger" asp-validation-for="Surname"></span>
+
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label class="mb-1">Other Name:</label>
+                    <input asp-for="Othername" class="form-control" />
+                <span class="text-danger" asp-validation-for="Othername"></span>
+
+                </div>
+                <div class="col">
+                    <label class="mb-1">Gender:</label>
+                    <select class="form-control" asp-for="Gender">
+                        <option value="Male" selected>Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                <span class="text-danger" asp-validation-for="Gender"></span>
+
+                </div>
+            </div>
+            <div class="row mb-3">
+                <div class="col">
+                    <label class="mb-1">Curent Rank:</label>
+                    <select class="form-control" asp-for="CurrentRankTitle" asp-items="@Model.RankList"></select>
+                <span class="text-danger" asp-validation-for="CurrentRankTitle"></span>
+
+                </div>
+                <div class="col">
+                    <label class="mb-1">Target Rank:</label>
+                    <select class="form-control" asp-for="TargetRankTitle" asp-items="@Model.RankList"></select>
+                <span class="text-danger" asp-validation-for="TargetRankTitle"></span>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="mb-3">
+                <label class="mb-1">Change Payment Status:</label>
+                <div class="row">
+                    <div class="col-7">
+                        <select class="form-control" asp-for="Status">
+                            <option value="pending" selected>Pending</option>
+                            <option value="paid">Paid</option>
+                        </select>
+                <span class="text-danger" asp-validation-for="Status"></span>
+
+                    </div>
+                </div>
+            </div>
+            <div class="mb-3">
+                <label class="mb-1">Province:</label>
+                <select class="form-control" asp-for="ProvinceName" asp-items="@Model.ProvinceList">
+                </select>
+                <span class="text-danger" asp-validation-for="ProvinceName"></span>
+
+            </div>
+        </div>
+        <button class="mt-3 btn btn-success w-25 rounded" type="submit">Save Changes</button>
+    </div>
+</form>

@@ -1,0 +1,43 @@
+﻿@model OrdinationApp.ViewModels.ManageProvincesViewModel;
+
+<section>
+@*    <div>
+        <a asp-controller="Data" asp-action="BulkUploadProvinces" style="width: 250px;" class="btn btn-outline-success">Bulk Upload Provinces</a>
+    </div>*@
+
+    <form method="post" asp-controller="Data" asp-action="ManageProvinces" class="mb-3">
+        <h3>Add New Province</h3>
+        <div class="row">
+            <div class="col-md-3">
+                <div class="form-group row mb-3">
+                    <label class="form-label col">Choose CMC</label>
+                    <select asp-for="CmcName" asp-items="@Model.CMCs" class="form-control col"></select>
+                </div>
+                <div class="form-group row mb-3">
+                    <label class="form-label col">New Province: </label>
+                    <input asp-for="NewProvinceName" class="col form-control" />
+                    <span class="text-danger" asp-validation-for="NewProvinceName"></span>
+                </div>
+                <button type="submit" class="btn btn-success">Add Province</button>
+            </div>
+        </div>
+
+    </form>
+    <table class="table table-striped table-bordered">
+        <thead>
+            <tr>
+                <th>Province Name</th>
+                <th>CMC</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var obj in Model.Provinces)
+            {
+                <tr>
+                    <td>@obj.Name</td>
+                    <td>@obj.CmcName</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</section>

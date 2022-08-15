@@ -1,0 +1,12 @@
+﻿using Microsoft.AspNetCore.Mvc.Rendering;
+using System.ComponentModel.DataAnnotations;
+
+namespace OrdinationApp.ViewModels
+{
+    public class BulkUploadProvincesViewModel
+    {
+        [Required(ErrorMessage = "Please, upload an excel file")]
+        public IFormFile upload { get; set; }
+
+    }
+}

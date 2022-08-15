@@ -1,0 +1,45 @@
+﻿@using Microsoft.AspNetCore.Identity;
+@inject SignInManager<TrackerUser> signInManager;
+@model List<OrdinationApp.ViewModels.HomepageUserViewModel>;
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<section class="welcome w-100 p-3 mt-4 mb-4 d-flex flex-column justify-content-center">
+    <h1 class="welcome-text">Welcome, @User.Identity.Name <br />to the <br />Ordination <br />Tracker System</h1>
+</section>
+
+<section class="mt-5 mb-5">
+    <h2 class="text-center">Team Members</h2>
+    <div class="main-carousel" data-flickity='{ "cellAlign": "left", "contain": true }'>
+        @foreach (var obj in Model)
+        {
+            <div class="card carousel-cell w-25">
+                <div>
+                    <img src="~/images/man.png" class="user-img w-50 mt-1 mx-auto d-block" />
+                </div>
+                <h3 class="text-center">
+                    @obj.UserName
+                </h3>
+                <p class="text-center text-danger">@obj.Role</p>
+            </div>
+        }
+
+ @*       <div class="card w-25">
+            <div>
+                <img src="~/images/man.png" class="user-img w-50 mt-1 mx-auto d-block" />
+            </div>
+            <h3 class="text-center">
+                Name
+            </h3>
+        </div>
+        <div class="card w-25">
+            <div>
+                <img src="~/images/man.png" class="user-img w-50 mt-1 mx-auto d-block" />
+            </div>
+            <h3 class="text-center">
+                Name
+            </h3>
+        </div>*@
+    </div>
+</section>
