@@ -2,7 +2,7 @@
 
 
 <div class="row mb-4 mt-4 ">
-    <form class="col-md-6 offset-md-3 border border-2 border-secondary rounded rounded-3 p-2" asp-controller="Approvals" asp-action="Index" method="get">
+    <form class="col-md-6 border border-2 border-secondary rounded rounded-3 p-2" asp-controller="Approvals" asp-action="Index" method="get">
         <div class="row d-flex align-items-center">
             <div class="col-3">
                 <span>
@@ -26,6 +26,9 @@
         </div>
 
     </form>
+    <div class="col-md-6">
+        <a asp-controller="Payments" asp-action="UpdatePayments" class="btn  btn-primary float-end">Update Payment</a>
+    </div>
 </div>
 
 <table class="table table-bordered text-center table-striped">

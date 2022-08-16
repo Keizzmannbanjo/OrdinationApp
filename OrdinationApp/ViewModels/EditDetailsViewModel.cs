@@ -42,9 +42,5 @@ namespace OrdinationApp.ViewModels
         [Required(ErrorMessage = "Please, choose a target rank")]
         [Display(Name = "Target Rank Title")]
         public string TargetRankTitle { get; set; }
-
-        [Required(ErrorMessage = "Please, choose a payment status")]
-        [Display(Name = "Status")]
-        public string Status { get; set; }
     }
 }

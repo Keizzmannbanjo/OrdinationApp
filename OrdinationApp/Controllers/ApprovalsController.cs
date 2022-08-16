@@ -15,16 +15,12 @@ namespace OrdinationApp.Controllers
         private IMemberServices _memberServices;
         private IProvinceServices _provinceServices;
         private IRankServices _rankServices;
-        private IPaymentRecordsServices _paymentRecordsServices;
-        private readonly IWebHostEnvironment environment;
 
-        public ApprovalsController(IMemberServices memberServices, IProvinceServices provinceServices, IRankServices rankServices, IPaymentRecordsServices paymentRecordsServices, IWebHostEnvironment environment)
+        public ApprovalsController(IMemberServices memberServices, IProvinceServices provinceServices, IRankServices rankServices)
         {
             _memberServices = memberServices;
             _provinceServices = provinceServices;
             _rankServices = rankServices;
-            _paymentRecordsServices = paymentRecordsServices;
-            this.environment = environment;
         }
         public IActionResult Index(string provinceFilter, string branchFilter, string rankFilter)
         {
@@ -192,15 +188,6 @@ namespace OrdinationApp.Controllers
                     member.Gender = model.Gender;
                     member.CurrentRankTitle = model.CurrentRankTitle;
                     member.TargetRankTitle = model.TargetRankTitle;
-                    member.Status = model.Status;
-                }
-                var paymentRecord = _paymentRecordsServices.GetPaymentRecord(member.Id);
-                if (paymentRecord == null)
-                {
-                    if (member.Status == "paid")
-                    {
-                        _paymentRecordsServices.CreatePaymentRecord(member);
-                    }
                 }
                 _memberServices.UpdateMember(member);
 
@@ -235,7 +222,6 @@ namespace OrdinationApp.Controllers
             }
             return new IndexViewModel { rankList = rankList, provinceList = provinceList, members = members };
         }
-
         private EditDetailsViewModel PopulateEditDetailsViewModel(Member member)
         {
             var ranks = _rankServices.GetRanks();
@@ -258,7 +244,6 @@ namespace OrdinationApp.Controllers
                 Surname = member.Surname,
                 Othername = member.Othername,
                 Gender = member.Gender,
-                Status = member.Status,
                 ProvinceName = member.ProvinceName,
                 RankList = rankList,
                 ProvinceList = provinceList,

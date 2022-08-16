@@ -10,7 +10,6 @@
                     <label class="mb-1">First Name:</label>
                     <input asp-for="FirstName" class="form-control" />
                 <span class="text-danger" asp-validation-for="FirstName"></span>
-
                 </div>
                 <div class="col">
                     <label class="mb-1">Surname:</label>
@@ -52,19 +51,6 @@
             </div>
         </div>
         <div class="col-md-6">
-            <div class="mb-3">
-                <label class="mb-1">Change Payment Status:</label>
-                <div class="row">
-                    <div class="col-7">
-                        <select class="form-control" asp-for="Status">
-                            <option value="pending" selected>Pending</option>
-                            <option value="paid">Paid</option>
-                        </select>
-                <span class="text-danger" asp-validation-for="Status"></span>
-
-                    </div>
-                </div>
-            </div>
             <div class="mb-3">
                 <label class="mb-1">Province:</label>
                 <select class="form-control" asp-for="ProvinceName" asp-items="@Model.ProvinceList">
