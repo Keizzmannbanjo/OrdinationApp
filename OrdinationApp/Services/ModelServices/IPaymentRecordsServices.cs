@@ -4,7 +4,7 @@ namespace OrdinationApp.Services.ModelServices
 {
     public interface IPaymentRecordsServices
     {
-        void CreatePaymentRecord(Member member);
+        bool CreatePaymentRecord(Member member);
 
         PaymentRecord GetPaymentRecord(int memberId);
     }

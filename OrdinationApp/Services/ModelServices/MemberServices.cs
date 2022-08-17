@@ -39,5 +39,21 @@ namespace OrdinationApp.Services.ModelServices
             _db.Members.Update(member);
             _db.SaveChanges();
         }
+
+        public Member GetMember(string membershipId)
+        {
+            var member = _db.Members.First(m => m.MemberShipId == membershipId && m.OrdinationYear == DateTime.Now.Year);
+            return member;
+        }
+
+        public void ChangePaymentStatus(int id)
+        {
+            var member = _db.Members.First(m => m.Id == id);
+            if(member.Status != "paid")
+            {
+                member.Status ="paid";
+                UpdateMember(member);
+            }
+        }
     }
 }

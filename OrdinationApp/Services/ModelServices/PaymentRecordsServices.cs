@@ -12,15 +12,23 @@ namespace OrdinationApp.Services.ModelServices
         {
             this._db = db;
         }
-        public void CreatePaymentRecord(Member member)
+        public bool CreatePaymentRecord(Member member)
         {
             var newPayment = new PaymentRecord
             {
                 MemberId = member.Id,
-                RankTitle = member.TargetRankTitle
+                RankTitle = member.TargetRankTitle,
+                TallyNo = ControlNumberGenerator.Generate(),
+                MembershipId=member.MemberShipId
             };
+            var checkIfExist = _db.PaymentRecords.Any(p => p.MembershipId == member.MemberShipId && p.PaymentYear == member.OrdinationYear);
+            if (checkIfExist)
+            {
+                return false;
+            }
             _db.PaymentRecords.Add(newPayment);
             _db.SaveChanges();
+            return true;
         }
 
         public PaymentRecord GetPaymentRecord(int memberId)

@@ -8,6 +8,9 @@ namespace OrdinationApp.Services.ModelServices
 
         Member GetMember(int id);
 
+        Member GetMember(string membershipId);
+
+        void ChangePaymentStatus(int id);
         bool AddMember(Member member);
         void UpdateMember(Member model);
     }

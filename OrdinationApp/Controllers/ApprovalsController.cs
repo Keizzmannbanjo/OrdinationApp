@@ -81,7 +81,6 @@ namespace OrdinationApp.Controllers
 
         [HttpGet]
         [Authorize(Roles = "Admin")]
-
         public IActionResult BulkUpload()
         {
             var model = new BulkUploadViewModel();

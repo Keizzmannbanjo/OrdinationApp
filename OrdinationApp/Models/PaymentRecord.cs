@@ -13,6 +13,8 @@ namespace OrdinationApp.Models
 
         public string TallyNo { get; set; }
 
+        public string MembershipId { get; set; }
+
 
         [ForeignKey("Member")]
         public int MemberId { get; set; }
