@@ -45,7 +45,7 @@ namespace OrdinationApp.ViewModels
         public string RankTitle { get; set; }
 
         [Required]
-        [Display(Name ="Branch")]
+        [Display(Name ="Province")]
         public string ProvinceName { get; set; }
 
         public List<SelectListItem>? RankList { get; set; }

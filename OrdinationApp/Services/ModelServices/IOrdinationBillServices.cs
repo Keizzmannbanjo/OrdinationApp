@@ -10,6 +10,7 @@ namespace OrdinationApp.Services.ModelServices
         bool AddOrdinationBill(AddBillViewModel bill);
 
         OrdinationBill GetOrdinationBill(int id);
+        OrdinationBill GetOrdinationBill(string rankTitle);
 
         void UpdateOrdinationBill(OrdinationBill bill);
     }

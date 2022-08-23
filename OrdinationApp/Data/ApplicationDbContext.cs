@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using OrdinationApp.Models;
 
@@ -15,7 +16,6 @@ namespace OrdinationApp.Data
         public DbSet<Province> Provinces { get; set; }
 
         public DbSet<TrackerUser> TrackerUsers { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
 
         public DbSet<CMC> CMCs { get; set; }
 
@@ -29,6 +29,13 @@ namespace OrdinationApp.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            var roles = new IdentityRole[]
+            {
+                new IdentityRole{Id=Guid.NewGuid().ToString(), Name="Coder", NormalizedName="Coder".ToUpper()}, new IdentityRole{Id=Guid.NewGuid().ToString(), Name="Admin",NormalizedName="Admin".ToUpper()}
+            };
+            modelBuilder.Entity<IdentityRole>().HasData(roles);
+
             modelBuilder.Entity<Member>().HasOne(m => m.CurrentRank).WithMany(r => r.CurrentMembers).OnDelete(DeleteBehavior.NoAction);
 
             modelBuilder.Entity<Member>().HasOne(m => m.TargetRank).WithMany(r => r.TargetMembers).OnDelete(DeleteBehavior.NoAction);
@@ -37,21 +44,16 @@ namespace OrdinationApp.Data
 
             modelBuilder.Entity<CMC>().HasData(cmcs);
 
-            var provinces = new Province[]
-            {
-                new Province{Name = "Ebute-Metta",
-                CmcName = "CMC 1"}, new Province{Name="Apapa", CmcName="CMC 11"}
-            };
-
-            var roles = new UserRole[] { new UserRole { Name = "Coder", NormalizedName="CODER" }, new UserRole { Name = "Admin", NormalizedName="ADMIN" } };
-
-
-            modelBuilder.Entity<UserRole>().HasData(roles);
-
-            modelBuilder.Entity<Province>().HasData(provinces);
 
             var ranks = new Rank[]
             {
+                new Rank
+                {
+                    Title="Brother",Gender="Male"
+                },new Rank
+                {
+                    Title="Sister",Gender="Female"
+                },
                 new Rank
                 {
                     Title="Army Of Salvation",Gender="Both"

@@ -12,8 +12,8 @@ using OrdinationApp.Data;
 namespace OrdinationApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220816132931_updated-payment-record-table")]
-    partial class updatedpaymentrecordtable
+    [Migration("20220822131301_added-roles")]
+    partial class addedroles
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -33,10 +33,6 @@ namespace OrdinationApp.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Name")
                         .HasMaxLength(256)
                         .HasColumnType("nvarchar(256)");
@@ -54,7 +50,21 @@ namespace OrdinationApp.Migrations
 
                     b.ToTable("AspNetRoles", (string)null);
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityRole");
+                    b.HasData(
+                        new
+                        {
+                            Id = "2141d30e-f5f2-4494-a683-ab9224610844",
+                            ConcurrencyStamp = "0dc82e8d-de6e-443b-8bc0-8bc20249a0c7",
+                            Name = "Coder",
+                            NormalizedName = "CODER"
+                        },
+                        new
+                        {
+                            Id = "d922965c-50e2-4533-ba7d-67b6964d2297",
+                            ConcurrencyStamp = "a99b154d-2519-4de5-8616-5431e7102bce",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -376,7 +386,7 @@ namespace OrdinationApp.Migrations
 
                     b.Property<string>("RankTitle")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<decimal>("TrainingFee")
                         .HasColumnType("money");
@@ -385,8 +395,6 @@ namespace OrdinationApp.Migrations
                         .HasColumnType("money");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("RankTitle");
 
                     b.ToTable("OrdinationBills");
                 });
@@ -440,18 +448,6 @@ namespace OrdinationApp.Migrations
                     b.HasIndex("CmcName");
 
                     b.ToTable("Provinces");
-
-                    b.HasData(
-                        new
-                        {
-                            Name = "Ebute-Metta",
-                            CmcName = "CMC 1"
-                        },
-                        new
-                        {
-                            Name = "Apapa",
-                            CmcName = "CMC 11"
-                        });
                 });
 
             modelBuilder.Entity("OrdinationApp.Models.Rank", b =>
@@ -463,11 +459,28 @@ namespace OrdinationApp.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("RankTitle")
+                        .HasColumnType("int");
+
                     b.HasKey("Title");
+
+                    b.HasIndex("RankTitle")
+                        .IsUnique()
+                        .HasFilter("[RankTitle] IS NOT NULL");
 
                     b.ToTable("Ranks");
 
                     b.HasData(
+                        new
+                        {
+                            Title = "Brother",
+                            Gender = "Male"
+                        },
+                        new
+                        {
+                            Title = "Sister",
+                            Gender = "Female"
+                        },
                         new
                         {
                             Title = "Army Of Salvation",
@@ -602,29 +615,6 @@ namespace OrdinationApp.Migrations
                     b.HasDiscriminator().HasValue("TrackerUser");
                 });
 
-            modelBuilder.Entity("OrdinationApp.Models.UserRole", b =>
-                {
-                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityRole");
-
-                    b.HasDiscriminator().HasValue("UserRole");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "0b264745-ae1e-445f-a2f5-a493279c8f55",
-                            ConcurrencyStamp = "507036f4-cb70-48b8-b286-9d8656535d89",
-                            Name = "Coder",
-                            NormalizedName = "CODER"
-                        },
-                        new
-                        {
-                            Id = "3f545e3f-b0ef-47aa-b278-e4d28508dcde",
-                            ConcurrencyStamp = "2e0dcdb6-759e-4f60-a8b1-131f8cffbc74",
-                            Name = "Admin",
-                            NormalizedName = "ADMIN"
-                        });
-                });
-
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -709,17 +699,6 @@ namespace OrdinationApp.Migrations
                     b.Navigation("TargetRank");
                 });
 
-            modelBuilder.Entity("OrdinationApp.Models.OrdinationBill", b =>
-                {
-                    b.HasOne("OrdinationApp.Models.Rank", "Rank")
-                        .WithMany("Bills")
-                        .HasForeignKey("RankTitle")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Rank");
-                });
-
             modelBuilder.Entity("OrdinationApp.Models.PaymentRecord", b =>
                 {
                     b.HasOne("OrdinationApp.Models.Member", "Member")
@@ -750,9 +729,24 @@ namespace OrdinationApp.Migrations
                     b.Navigation("CMC");
                 });
 
+            modelBuilder.Entity("OrdinationApp.Models.Rank", b =>
+                {
+                    b.HasOne("OrdinationApp.Models.OrdinationBill", "Bill")
+                        .WithOne("Rank")
+                        .HasForeignKey("OrdinationApp.Models.Rank", "RankTitle");
+
+                    b.Navigation("Bill");
+                });
+
             modelBuilder.Entity("OrdinationApp.Models.CMC", b =>
                 {
                     b.Navigation("Provinces");
+                });
+
+            modelBuilder.Entity("OrdinationApp.Models.OrdinationBill", b =>
+                {
+                    b.Navigation("Rank")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("OrdinationApp.Models.Province", b =>
@@ -762,8 +756,6 @@ namespace OrdinationApp.Migrations
 
             modelBuilder.Entity("OrdinationApp.Models.Rank", b =>
                 {
-                    b.Navigation("Bills");
-
                     b.Navigation("CurrentMembers");
 
                     b.Navigation("RankPayments");

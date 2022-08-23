@@ -27,9 +27,16 @@ namespace OrdinationApp.Services.ModelServices
             return false;
         }
 
+     
+
         public OrdinationBill GetOrdinationBill(int id)
         {
             return _db.OrdinationBills.First(o => o.Id == id);
+        }
+
+        public OrdinationBill GetOrdinationBill(string rankTitle)
+        {
+            return _db.OrdinationBills.First(o => o.RankTitle == rankTitle);
         }
 
         public IEnumerable<OrdinationBill> GetOrdinationBills()

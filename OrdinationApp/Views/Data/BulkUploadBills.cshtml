@@ -1,0 +1,17 @@
+﻿@model OrdinationApp.ViewModels.BulkUploadBills;
+
+<div class="card mx-2 my-2 p-5">
+    <form method="post"  enctype="multipart/form-data">
+        <h2 class="text-primary">Bulk Upload Bills</h2>
+        <div class="row">
+
+            <div class="col-4">
+                <label >Upload Excel File:</label>
+                <input type="file" id="upload" name="upload" class="form-control" />
+            </div>
+        </div>
+
+
+        <button class="btn btn-success mt-3" type="submit">Upload Bills</button>
+    </form>
+</div>

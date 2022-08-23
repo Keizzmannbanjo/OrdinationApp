@@ -13,10 +13,10 @@ namespace OrdinationApp.Controllers
         private readonly UserManager<TrackerUser> userManager;
         private readonly IRankServices rankServices;
         private readonly IProvinceServices provinceServices;
-        private readonly RoleManager<UserRole> roleManager;
+        private readonly RoleManager<IdentityRole> roleManager;
         public readonly SignInManager<TrackerUser> signInManager;
 
-        public AdminController(SignInManager<TrackerUser> signInManager, UserManager<TrackerUser> userManager, IRankServices rankServices, IProvinceServices provinceServices, RoleManager<UserRole> roleManager)
+        public AdminController(SignInManager<TrackerUser> signInManager, UserManager<TrackerUser> userManager, IRankServices rankServices, IProvinceServices provinceServices, RoleManager<IdentityRole> roleManager)
         {
             this.signInManager = signInManager;
             this.userManager = userManager;
@@ -106,7 +106,7 @@ namespace OrdinationApp.Controllers
         {
             var ranks = rankServices.GetRanks();
             var provinces = provinceServices.GetProvinces();
-            IEnumerable<UserRole> roles = roleManager.Roles;
+            IEnumerable<IdentityRole> roles = roleManager.Roles;
             var rankList = new List<SelectListItem>();
             var provinceList = new List<SelectListItem>();
             var roleList = new List<SelectListItem>();
@@ -132,7 +132,7 @@ namespace OrdinationApp.Controllers
         {
             var ranks = rankServices.GetRanks();
             var provinces = provinceServices.GetProvinces();
-            IEnumerable<UserRole> roles = roleManager.Roles;
+            IEnumerable<IdentityRole> roles = roleManager.Roles;
             var rankList = new List<SelectListItem>();
             var provinceList = new List<SelectListItem>();
             var roleList = new List<SelectListItem>();

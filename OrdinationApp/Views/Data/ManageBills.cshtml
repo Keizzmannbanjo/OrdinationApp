@@ -3,18 +3,18 @@
 <section>
     <div class="d-flex justify-content-between p-5">
         <h3 class="text-primary">Ordination Bills</h3>
-        <a asp-controller="Data" asp-action="AddBill" class="btn btn-primary">Add New Bill</a>
+        <a asp-controller="Data" asp-action="AddBill" class="btn btn-success">Add New Bill</a>
     </div>
     @if (Model.Bills.Count() != 0)
     {
-        <table class="table table-bordered table-striped text-center">
+        <table class="table table-striped text-center">
             <thead>
-            <th>Rank</th>
-            <th>Ordination Fee (#)</th>
-            <th>Training Fee (#)</th>
-            <th>Wooden Staff Fee (#)</th>
-            <th>Iron Staff Fee (#)</th>
-            <th></th>
+                <th>Rank</th>
+                <th>Ordination Fee (#)</th>
+                <th>Training Fee (#)</th>
+                <th>Wooden Staff Fee (#)</th>
+                <th>Iron Staff Fee (#)</th>
+                <th></th>
             </thead>
             @foreach (var obj in Model.Bills)
             {

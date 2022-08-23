@@ -9,14 +9,25 @@ namespace OrdinationApp.Controllers
     {
         private readonly IMemberServices memberServices;
         private readonly IPaymentRecordsServices paymentRecordsServices;
+        private readonly IRankServices rankServices;
+        private readonly IOrdinationBillServices ordinationBillServices;
 
-        public PaymentsController(IMemberServices memberServices, IPaymentRecordsServices paymentRecordsServices)
+
+        public PaymentsController(IMemberServices memberServices, IPaymentRecordsServices paymentRecordsServices, IRankServices rankServices, IOrdinationBillServices ordinationBillServices)
         {
             this.memberServices = memberServices;
             this.paymentRecordsServices = paymentRecordsServices;
+            this.rankServices = rankServices;
+            this.ordinationBillServices = ordinationBillServices;
         }
         public IActionResult UpdatePayments()
         {
+            var ranksCount = rankServices.GetRanks().Count() - 2;
+            var billsCount = ordinationBillServices.GetOrdinationBills().Count();
+            if (ranksCount != billsCount)
+            {
+                return RedirectToAction("PaymentError", "Payments");
+            }
             var checkSessionExist = HttpContext.Session.Get("MembersToVerify");
             if (checkSessionExist != null)
             {
@@ -55,7 +66,7 @@ namespace OrdinationApp.Controllers
         public IActionResult SavePayments()
         {
             List<Member> membersToVerify = JsonConvert.DeserializeObject<List<Member>>(HttpContext.Session.GetString("MembersToVerify"));
-            foreach(var member in membersToVerify)
+            foreach (var member in membersToVerify)
             {
                 var created = paymentRecordsServices.CreatePaymentRecord(member);
                 if (created)
@@ -65,6 +76,11 @@ namespace OrdinationApp.Controllers
             }
             HttpContext.Session.Remove("MembersToVerify");
             return RedirectToAction("Index", "Approvals");
+        }
+
+        public IActionResult PaymentError()
+        {
+            return View();
         }
     }
 }

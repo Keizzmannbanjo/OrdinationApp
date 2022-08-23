@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OrdinationApp.Migrations
 {
-    public partial class first : Migration
+    public partial class changedrankbillrelationss : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -14,7 +14,6 @@ namespace OrdinationApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Discriminator = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     ConcurrencyStamp = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -67,15 +66,20 @@ namespace OrdinationApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Ranks",
+                name: "OrdinationBills",
                 columns: table => new
                 {
-                    Title = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    OrdinationFee = table.Column<decimal>(type: "money", nullable: false),
+                    RankTitle = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    TrainingFee = table.Column<decimal>(type: "money", nullable: false),
+                    WoodenStaffPrice = table.Column<decimal>(type: "money", nullable: false),
+                    IronStaffPrice = table.Column<decimal>(type: "money", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Ranks", x => x.Title);
+                    table.PrimaryKey("PK_OrdinationBills", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -203,26 +207,21 @@ namespace OrdinationApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OrdinationBills",
+                name: "Ranks",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    OrdinationFee = table.Column<decimal>(type: "money", nullable: false),
-                    RankTitle = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    TrainingFee = table.Column<decimal>(type: "money", nullable: false),
-                    WoodenStaffPrice = table.Column<decimal>(type: "money", nullable: false),
-                    IronStaffPrice = table.Column<decimal>(type: "money", nullable: false)
+                    Title = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    RankTitle = table.Column<int>(type: "int", nullable: true),
+                    Gender = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OrdinationBills", x => x.Id);
+                    table.PrimaryKey("PK_Ranks", x => x.Title);
                     table.ForeignKey(
-                        name: "FK_OrdinationBills_Ranks_RankTitle",
+                        name: "FK_Ranks_OrdinationBills_RankTitle",
                         column: x => x.RankTitle,
-                        principalTable: "Ranks",
-                        principalColumn: "Title",
-                        onDelete: ReferentialAction.Cascade);
+                        principalTable: "OrdinationBills",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -273,6 +272,7 @@ namespace OrdinationApp.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     PaymentYear = table.Column<int>(type: "int", nullable: false),
                     TallyNo = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    MembershipId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MemberId = table.Column<int>(type: "int", nullable: false),
                     RankTitle = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
@@ -291,15 +291,6 @@ namespace OrdinationApp.Migrations
                         principalTable: "Ranks",
                         principalColumn: "Title",
                         onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.InsertData(
-                table: "AspNetRoles",
-                columns: new[] { "Id", "ConcurrencyStamp", "Discriminator", "Name", "NormalizedName" },
-                values: new object[,]
-                {
-                    { "8042fe00-795d-4283-873b-185d3896b494", "f68ee0b3-d0b3-49d8-9438-20851fcce4de", "UserRole", "Admin", "ADMIN" },
-                    { "8b1127c7-00fc-4c2e-a929-93d6453dd3c1", "a56f22e8-fe95-409f-bca0-bdd9e3f6e3e9", "UserRole", "Coder", "CODER" }
                 });
 
             migrationBuilder.InsertData(
@@ -323,41 +314,33 @@ namespace OrdinationApp.Migrations
 
             migrationBuilder.InsertData(
                 table: "Ranks",
-                columns: new[] { "Title", "Gender" },
+                columns: new[] { "Title", "Gender", "RankTitle" },
                 values: new object[,]
                 {
-                    { "Aladura", "Male" },
-                    { "Apostle", "Male" },
-                    { "Apostle General", "Male" },
-                    { "Army Of Christ", "Both" },
-                    { "Army Of Salvation", "Both" },
-                    { "Deborah", "Female" },
-                    { "Dorcas", "Female" },
-                    { "Evangelist", "Male" },
-                    { "Lady Aladura", "Female" },
-                    { "Lady Leader", "Female" },
-                    { "Leader", "Male" },
-                    { "Mary", "Female" },
-                    { "Mother In Israel", "Female" },
-                    { "Pastor", "Male" },
-                    { "Prophetess", "Female" },
-                    { "Rabbi", "Male" },
-                    { "Senior Apostle", "Male" },
-                    { "Senior Mother In Israel", "Female" },
-                    { "Special Senior Apostle", "Male" },
-                    { "Supervising Apostle", "Male" },
-                    { "Supervising Apostle General", "Male" }
+                    { "Aladura", "Male", null },
+                    { "Apostle", "Male", null },
+                    { "Apostle General", "Male", null },
+                    { "Army Of Christ", "Both", null },
+                    { "Army Of Salvation", "Both", null },
+                    { "Brother", "Male", null },
+                    { "Deborah", "Female", null },
+                    { "Dorcas", "Female", null },
+                    { "Evangelist", "Male", null },
+                    { "Lady Aladura", "Female", null },
+                    { "Lady Leader", "Female", null },
+                    { "Leader", "Male", null },
+                    { "Mary", "Female", null },
+                    { "Mother In Israel", "Female", null },
+                    { "Pastor", "Male", null },
+                    { "Prophetess", "Female", null },
+                    { "Rabbi", "Male", null },
+                    { "Senior Apostle", "Male", null },
+                    { "Senior Mother In Israel", "Female", null },
+                    { "Sister", "Female", null },
+                    { "Special Senior Apostle", "Male", null },
+                    { "Supervising Apostle", "Male", null },
+                    { "Supervising Apostle General", "Male", null }
                 });
-
-            migrationBuilder.InsertData(
-                table: "Provinces",
-                columns: new[] { "Name", "CmcName" },
-                values: new object[] { "Apapa", "CMC 11" });
-
-            migrationBuilder.InsertData(
-                table: "Provinces",
-                columns: new[] { "Name", "CmcName" },
-                values: new object[] { "Ebute-Metta", "CMC 1" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
@@ -419,11 +402,6 @@ namespace OrdinationApp.Migrations
                 column: "TargetRankTitle");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OrdinationBills_RankTitle",
-                table: "OrdinationBills",
-                column: "RankTitle");
-
-            migrationBuilder.CreateIndex(
                 name: "IX_PaymentRecords_MemberId",
                 table: "PaymentRecords",
                 column: "MemberId");
@@ -437,6 +415,13 @@ namespace OrdinationApp.Migrations
                 name: "IX_Provinces_CmcName",
                 table: "Provinces",
                 column: "CmcName");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Ranks_RankTitle",
+                table: "Ranks",
+                column: "RankTitle",
+                unique: true,
+                filter: "[RankTitle] IS NOT NULL");
 
             migrationBuilder.AddForeignKey(
                 name: "FK_Members_PaymentRecords_PaymentRecordId",
@@ -468,9 +453,6 @@ namespace OrdinationApp.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "OrdinationBills");
-
-            migrationBuilder.DropTable(
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
@@ -490,6 +472,9 @@ namespace OrdinationApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "CMCs");
+
+            migrationBuilder.DropTable(
+                name: "OrdinationBills");
         }
     }
 }

@@ -9,7 +9,7 @@ namespace OrdinationApp.Models
         public string Title { get; set; }
 
         [ForeignKey("RankTitle")]
-        public ICollection<OrdinationBill> Bills { get; set; }
+        public OrdinationBill?  Bill { get; set; }
 
         [Required]
         public string Gender { get; set; }

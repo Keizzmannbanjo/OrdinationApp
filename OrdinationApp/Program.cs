@@ -16,7 +16,7 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddIdentity<TrackerUser, UserRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<TrackerUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
 builder.Services.AddScoped<IMemberServices, MemberServices>();
 builder.Services.AddScoped<IProvinceServices, ProvinceServices>();

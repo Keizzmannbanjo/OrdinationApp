@@ -8,7 +8,7 @@ using OrdinationApp.ViewModels;
 
 namespace OrdinationApp.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class DataController : Controller
     {
         private IProvinceServices _provinceServices;
@@ -116,6 +116,72 @@ namespace OrdinationApp.Controllers
                 }
             }
             return View(model);
+        }
+
+        public IActionResult BulkUploadBills()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult BulkUploadBills(BulkUploadBills file)
+        {
+            if (ModelState.IsValid)
+            {
+                string filename = file.upload.FileName;
+                string errorMessage = "";
+                if (!filename.Contains(".xlsx"))
+                {
+                    ModelState.AddModelError("upload", "File upload must be an excel file, try again!");
+                    return View();
+                }
+                if (file.upload.Length > 0)
+                {
+                    var stream = file.upload.OpenReadStream();
+                    try
+                    {
+                        ExcelPackage.LicenseContext = LicenseContext.NonCommercial;
+                        using (var package = new ExcelPackage(stream))
+                        {
+                            var worksheet = package.Workbook.Worksheets.First();
+                            var rowCount = _rankServices.GetRanks().Count();
+                            for (var row = 2; row < rowCount; row++)
+                            {
+                                var model = new AddBillViewModel
+                                {
+                                    RankTitle = worksheet.Cells[row, 1].Value.ToString(),
+                                    OrdinationFee = Convert.ToDecimal(worksheet.Cells[row, 2].Value),
+                                    TrainingFee = Convert.ToDecimal(worksheet.Cells[row, 3].Value),
+                                    WoodenStaffPrice = Convert.ToDecimal(worksheet.Cells[row, 4].Value),
+                                    IronStaffPrice = Convert.ToDecimal(worksheet.Cells[row, 5].Value)
+                                };
+                                var succeeded = _ordinationBillServices.AddOrdinationBill(model);
+                                if (!succeeded)
+                                {
+                                    errorMessage += $"Rank ${model.RankTitle}'s bill already exist";
+                                }
+
+                            }
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex.Message);
+                    }
+                    if (errorMessage.Length <= 0)
+                    {
+                        return RedirectToAction("ManageBills");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("Exists", errorMessage);
+                        return View();
+                    }
+                }
+            }
+            return View();
         }
 
 
