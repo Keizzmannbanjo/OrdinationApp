@@ -8,7 +8,6 @@ namespace OrdinationApp.Models
         [Key]
         public string Name { get; set; }
 
-
         public string CmcName { get; set; }
 
         [Required]

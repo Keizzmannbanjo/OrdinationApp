@@ -3,7 +3,7 @@
 <section>
     <div class="d-flex justify-content-between p-5">
         <h3 class="text-primary">Ordination Bills</h3>
-        <a asp-controller="Data" asp-action="AddBill" class="btn btn-success">Add New Bill</a>
+        <a asp-controller="Data" asp-action="BulkUploadBills" class="btn btn-success">Bulk Upload Bills</a>
     </div>
     @if (Model.Bills.Count() != 0)
     {

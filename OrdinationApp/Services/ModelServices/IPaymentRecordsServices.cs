@@ -6,6 +6,8 @@ namespace OrdinationApp.Services.ModelServices
     {
         bool CreatePaymentRecord(Member member);
 
-        PaymentRecord GetPaymentRecord(int memberId);
+        PaymentRecord GetPaymentRecord(int id);
+
+        IEnumerable<PaymentRecord> GetPaymentRecords();
     }
 }

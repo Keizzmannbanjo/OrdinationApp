@@ -7,6 +7,20 @@
 <div class="container">
     <form method="post" asp-action="SingleUpload" class="card p-4">
         <h3 class="mb-4">Add Single Member Approval</h3>
+         <div class="form-group row mb-3">
+            <label class="col-md-2" asp-for="MemberShipId"> Membership ID: </label>
+            <div class="col-md-6">
+                <input asp-for="MemberShipId" class="form-control" />
+                <span class="text-danger" asp-validation-for="MemberShipId"></span>
+            </div>
+        </div>
+            <div class="form-group row mb-3">
+            <label class="col-md-2" asp-for="Surname"> Surname:</label>
+            <div class="col-md-6">
+                <input asp-for="Surname" class="form-control" />
+                <span class="text-danger" asp-validation-for="Surname"></span>
+            </div>
+        </div>
         <div class="form-group row mb-3">
             <label class="col-md-2" asp-for="FirstName"> First Name: </label>
             <div class="col-md-6">
@@ -14,13 +28,7 @@
                 <span class="text-danger" asp-validation-for="FirstName"></span>
             </div>
         </div>
-        <div class="form-group row mb-3">
-            <label class="col-md-2" asp-for="Surname"> Surname:</label>
-            <div class="col-md-6">
-                <input asp-for="Surname" class="form-control" />
-                <span class="text-danger" asp-validation-for="Surname"></span>
-            </div>
-        </div>
+    
         <div class="form-group row mb-3">
             <label class="col-md-2" asp-for="Othername"> Other Name: </label>
             <div class="col-md-6">

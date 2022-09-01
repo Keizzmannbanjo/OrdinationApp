@@ -22,7 +22,7 @@ namespace OrdinationApp.Controllers
             _provinceServices = provinceServices;
             _rankServices = rankServices;
         }
-        public IActionResult Index(string provinceFilter, string branchFilter, string rankFilter)
+        public IActionResult Index(string provinceFilter, string rankFilter)
         {
             IEnumerable<Member> members = _memberServices.GetMembers();
             if (provinceFilter != null)
@@ -56,6 +56,7 @@ namespace OrdinationApp.Controllers
             {
                 Member newMember = new Member
                 {
+                    MemberShipId=model.MemberShipId,
                     FirstName = model.FirstName,
                     Surname = model.Surname,
                     Othername = model.Othername,
