@@ -1,0 +1,12 @@
+﻿@model OrdinationApp.ViewModels.SessionViewModel.PaymentsView;
+
+
+@if(Model != null)
+{
+@foreach(var obj in Model.Ids){
+    <p>Here is a payment object</p>
+}
+} else{
+    <p>There is no object</p>
+}
+

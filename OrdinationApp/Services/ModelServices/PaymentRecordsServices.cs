@@ -1,6 +1,6 @@
-﻿using OrdinationApp.Data;
+﻿using Microsoft.EntityFrameworkCore;
+using OrdinationApp.Data;
 using OrdinationApp.Models;
-
 
 namespace OrdinationApp.Services.ModelServices
 {
@@ -31,9 +31,14 @@ namespace OrdinationApp.Services.ModelServices
             return true;
         }
 
-        public PaymentRecord GetPaymentRecord(int memberId)
+        public PaymentRecord GetPaymentRecord(int id)
         {
-            return _db.PaymentRecords.FirstOrDefault(p => p.MemberId == memberId);
+            return _db.PaymentRecords.Include(p=>p.Member).ThenInclude(p=>p.Province).First(p => p.Id == id);
+        }
+
+        public IEnumerable<PaymentRecord> GetPaymentRecords()
+        {
+            return _db.PaymentRecords.Include(p => p.Rank).Include(p => p.Member);
         }
     }
 }

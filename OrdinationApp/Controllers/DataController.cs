@@ -8,7 +8,7 @@ using OrdinationApp.ViewModels;
 
 namespace OrdinationApp.Controllers
 {
-    //[Authorize(Roles = "Admin")]
+    [Authorize(Roles = "Admin")]
     public class DataController : Controller
     {
         private IProvinceServices _provinceServices;
@@ -48,7 +48,7 @@ namespace OrdinationApp.Controllers
                 {
                     return View(CreateManageProvincesViewModel(model));
                 }
-                
+
             }
             return View(CreateManageProvincesViewModel(model));
         }
@@ -246,11 +246,12 @@ namespace OrdinationApp.Controllers
         [ValidateAntiForgeryToken]
         public IActionResult EditBill(EditBillViewModel model)
         {
-            var bill = _ordinationBillServices.GetOrdinationBill(model.Id);
-            if (bill != null)
+            if (ModelState.IsValid)
             {
-                if (ModelState.IsValid)
+                var bill = _ordinationBillServices.GetOrdinationBill(model.Id);
+                if (bill != null)
                 {
+
                     bill.OrdinationFee = model.OrdinationFee;
                     bill.TrainingFee = model.TrainingFee;
                     bill.WoodenStaffPrice = model.WoodenStaffPrice;

@@ -6,6 +6,8 @@ namespace OrdinationApp.ViewModels
 
     public class SingleUploadViewModel
     {
+        [Required(ErrorMessage ="Please, enter membership Id")]
+        public string MemberShipId { get; set; }
 
         [Required(ErrorMessage = "Please, enter a first name")]
         [Display(Name = "First Name")]

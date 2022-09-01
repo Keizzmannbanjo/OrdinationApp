@@ -51,6 +51,13 @@
                                 <li><a class="text-light nav-link dropdown-item" asp-controller="Data" asp-action="ManageBills">Bills</a></li>
                             </ul>
                         </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link text-light dropdown-toggle" data-bs-toggle="dropdown">Payments</a>
+                            <ul class="dropdown-menu bg-secondary">
+                                <li><a class="text-light nav-link dropdown-item" asp-controller="Payments" asp-action="ViewPaymentRecords">Payment Summary</a></li>
+                                <li><a asp-controller="Payments" asp-action="ViewPaymentReport" class="text-light nav-link dropdown-item">View Payment Reports</a></li>
+                            </ul>
+                        </li>
                     </ul>
                 </div>
             </div>
