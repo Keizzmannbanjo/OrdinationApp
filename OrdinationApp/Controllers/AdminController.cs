@@ -71,7 +71,7 @@ namespace OrdinationApp.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new TrackerUser { UserName = model.Username, Email = model.Email, FirstName = model.FirstName, Surname = model.Surname, LastName = model.LastName, Rank = model.RankTitle, Province = model.ProvinceName };
+                var user = new TrackerUser { UserName = model.Username, Email = model.Email, FirstName = model.FirstName, Surname = model.Surname, LastName = model.LastName };
                 var result = await userManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
@@ -211,55 +211,29 @@ namespace OrdinationApp.Controllers
 
         private RegisterUserViewModel PopupateRegisterUserViewModel()
         {
-            var ranks = rankServices.GetRanks();
-            var provinces = provinceServices.GetProvinces();
             IEnumerable<IdentityRole> roles = roleManager.Roles;
-            var rankList = new List<SelectListItem>();
-            var provinceList = new List<SelectListItem>();
+
             var roleList = new List<SelectListItem>();
-            foreach (var rank in ranks)
-            {
-                var item = new SelectListItem { Text = rank.Title, Value = rank.Title };
-                rankList.Add(item);
-            }
-            foreach (var province in provinces)
-            {
-                var item = new SelectListItem { Text = province.Name, Value = province.Name };
-                provinceList.Add(item);
-            }
+      
             foreach (var role in roles)
             {
                 var item = new SelectListItem { Text = role.Name, Value = role.Id };
                 roleList.Add(item);
             }
-            var model = new RegisterUserViewModel { ProvinceList = provinceList, RankList = rankList, RoleList = roleList };
+            var model = new RegisterUserViewModel {RoleList = roleList };
             return model;
         }
         private RegisterUserViewModel PopupateRegisterUserViewModel(RegisterUserViewModel model)
         {
-            var ranks = rankServices.GetRanks();
-            var provinces = provinceServices.GetProvinces();
             IEnumerable<IdentityRole> roles = roleManager.Roles;
-            var rankList = new List<SelectListItem>();
-            var provinceList = new List<SelectListItem>();
             var roleList = new List<SelectListItem>();
-            foreach (var rank in ranks)
-            {
-                var item = new SelectListItem { Text = rank.Title, Value = rank.Title };
-                rankList.Add(item);
-            }
-            foreach (var branch in provinces)
-            {
-                var item = new SelectListItem { Text = branch.Name, Value = branch.Name };
-                provinceList.Add(item);
-            }
+         
             foreach (var role in roles)
             {
                 var item = new SelectListItem { Text = role.Name, Value = role.Id };
                 roleList.Add(item);
             }
-            model.ProvinceList = provinceList;
-            model.RankList = rankList;
+        
             model.RoleList = roleList;
             return model;
         }

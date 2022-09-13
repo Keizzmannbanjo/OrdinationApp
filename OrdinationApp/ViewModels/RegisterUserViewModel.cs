@@ -39,18 +39,6 @@ namespace OrdinationApp.ViewModels
         [DataType(DataType.Password)]
         [Compare("Password",ErrorMessage ="Password does not match, try again...")]
         public string ConfirmPassword { get; set; }
-
-        [Required]
-        [Display(Name = "Rank")]
-        public string RankTitle { get; set; }
-
-        [Required]
-        [Display(Name ="Province")]
-        public string ProvinceName { get; set; }
-
-        public List<SelectListItem>? RankList { get; set; }
-
-        public List<SelectListItem>? ProvinceList { get; set; }
         public List<SelectListItem>? RoleList { get; set; }
     }
 }

@@ -25,17 +25,5 @@ namespace OrdinationApp.ViewModels
         [Display(Name = "Email Address")]
         [DataType(DataType.EmailAddress)]
         public string Email { get; set; }
-
-        [Required]
-        [Display(Name = "Rank")]
-        public string RankTitle { get; set; }
-
-        [Required]
-        [Display(Name = "Province")]
-        public string ProvinceName { get; set; }
-
-        public List<SelectListItem>? RankList { get; set; }
-
-        public List<SelectListItem>? ProvinceList { get; set; }
     }
 }

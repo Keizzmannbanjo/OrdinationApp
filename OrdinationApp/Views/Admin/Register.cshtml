@@ -41,20 +41,7 @@
                 <input class="form-control" asp-for="Email" placeholder="Enter your Email" />
                 <span class="text-danger" asp-validation-for="Email"></span>
             </div>
-            <div class="mb-3  w-75">
-                <label asp-for="RankTitle" class="form-label"></label>
-                <div>
-                    <select class="form-control" asp-for="RankTitle" asp-items="@Model.RankList"></select>
-                    <span class="text-danger" asp-validation-for="RankTitle"></span>
-                </div>
-            </div>
-            <div class="mb-3  w-75">
-                <label asp-for="ProvinceName" class="form-label"></label>
-                <div>
-                    <select class="form-control" asp-for="ProvinceName" asp-items="@Model.ProvinceList"></select>
-                    <span class="text-danger" asp-validation-for="ProvinceName"></span>
-                </div>
-            </div>
+
             <div class="mb-3  w-75">
                 <label asp-for="Role" class="form-label"></label>
                 <div>
