@@ -50,15 +50,14 @@ namespace OrdinationApp.Controllers
             return View(model);
         }
 
-        
+
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Login");
         }
 
-        //[Authorize(Roles = "Admin")]
-
+        [Authorize(Roles = "Admin")]
         public IActionResult Register()
         {
             var model = PopupateRegisterUserViewModel();
@@ -67,7 +66,7 @@ namespace OrdinationApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register(RegisterUserViewModel model)
         {
             if (ModelState.IsValid)
@@ -97,8 +96,116 @@ namespace OrdinationApp.Controllers
             return View(newModel);
         }
 
+        public async Task<IActionResult> ManageUsers()
+        {
+            var users = userManager.Users.ToList();
+            List<ManageUserViewModel> model = new List<ManageUserViewModel>();
+            foreach (var user in users)
+            {
+                var newUser = new ManageUserViewModel();
+                newUser.user = user;
+                var userRoles = await userManager.GetRolesAsync(user);
+                foreach (var role in userRoles)
+                {
+                    newUser.Role = role;
+                }
+                model.Add(newUser);
+            }
+            return View(model);
+        }
+
+        public async Task<IActionResult> EditUserRole(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+            if (user != null)
+            {
+                var model = PopulateEditUserRoleViewModel(user.Id);
+                var userRoles = await userManager.GetRolesAsync(user);
+                foreach (var role in userRoles)
+                {
+                    model.role = role;
+                }
+                return View(model);
+            }
+            else
+            {
+                return RedirectToAction("ManageUsers");
+            }
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> EditUserRole(EditUserRoleViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByIdAsync(model.userId);
+                var role = await roleManager.FindByIdAsync(model.role);
+                if (await userManager.IsInRoleAsync(user, role.Name))
+                {
+                    return View(PopulateEditUserRoleViewModel(model.userId));
+                }
+                else
+                {
+                    var result = await userManager.IsInRoleAsync(user, "Admin") ? await userManager.RemoveFromRoleAsync(user, "Admin") : await userManager.RemoveFromRoleAsync(user, "Coder");
+                    var success = await userManager.AddToRoleAsync(user, role.Name);
+                }
+                return RedirectToAction("ManageUsers");
+            }
+            return View(PopulateEditUserRoleViewModel(model.userId));
+        }
+
         public IActionResult AccessDenied()
         {
+            return View();
+        }
+
+        public async Task<IActionResult> ChangePassword(string name)
+        {
+            var user= await userManager.FindByNameAsync(name);
+            var model = new ChangePasswordViewModel { userName = user.UserName };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByNameAsync(model.userName);
+                var succeeded = await userManager.ChangePasswordAsync(user, model.CurrentPassword, model.ConfirmNewPassword);
+                if (succeeded.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+                else
+                {
+                    return View(model);
+                }
+            }
+            return View(model);
+        }
+
+        public IActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ForgotPassword(PasswordRecoveryViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByEmailAsync(model.Email);
+                if(user.UserName == model.Username)
+                {
+                    var token = await userManager.GeneratePasswordResetTokenAsync(user);
+                    var passwordResetLink = Url.Action("ResetPassword", "Admin", new { email = model.Email, token = token }, Request.Scheme);
+                }
+                return View();
+            }
             return View();
         }
 
@@ -125,10 +232,10 @@ namespace OrdinationApp.Controllers
                 var item = new SelectListItem { Text = role.Name, Value = role.Id };
                 roleList.Add(item);
             }
-            var model = new RegisterUserViewModel { ProvinceList = provinceList, RankList = rankList, RoleList=roleList };
+            var model = new RegisterUserViewModel { ProvinceList = provinceList, RankList = rankList, RoleList = roleList };
             return model;
         }
-        private  RegisterUserViewModel PopupateRegisterUserViewModel(RegisterUserViewModel model)
+        private RegisterUserViewModel PopupateRegisterUserViewModel(RegisterUserViewModel model)
         {
             var ranks = rankServices.GetRanks();
             var provinces = provinceServices.GetProvinces();
@@ -155,6 +262,18 @@ namespace OrdinationApp.Controllers
             model.RankList = rankList;
             model.RoleList = roleList;
             return model;
+        }
+
+        private EditUserRoleViewModel PopulateEditUserRoleViewModel(string id)
+        {
+            var roles = roleManager.Roles.ToList();
+            var roleList = new List<SelectListItem>();
+            foreach (var role in roles)
+            {
+                var item = new SelectListItem { Text = role.Name, Value = role.Id };
+                roleList.Add(item);
+            }
+            return new EditUserRoleViewModel { userId = id, roleList = roleList };
         }
     }
 }

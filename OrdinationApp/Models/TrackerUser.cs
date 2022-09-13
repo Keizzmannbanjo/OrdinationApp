@@ -9,9 +9,5 @@ namespace OrdinationApp.Models
         public string Surname { get; set; }
 
         public string LastName { get; set; }
-
-        public string Rank { get; set; }
-
-        public string Province { get; set; }
     }
 }

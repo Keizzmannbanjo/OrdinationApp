@@ -1,0 +1,24 @@
+﻿<section class="my-5">
+    <h3 class="text-center text-primary">All Users</h3>
+    <div class="row">
+            @foreach (var obj in Model)
+    {
+        <div class="col-sm-12 col-md-6">
+            <div class="card">
+                <div class="card-body">
+                    <h5>Name: @obj.user.Surname  @obj.user.FirstName</h5>
+                    <h5>Role: @obj.Role</h5>
+                    <div>
+                        <a asp-controller="Admin" asp-action="EditUserRole" asp-route-id="@obj.user.Id" class="btn btn-warning">Change Role</a>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+    }
+    </div>
+
+
+
+</section>

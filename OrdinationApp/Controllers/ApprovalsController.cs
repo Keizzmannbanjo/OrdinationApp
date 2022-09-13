@@ -32,7 +32,7 @@ namespace OrdinationApp.Controllers
 
             if (rankFilter != null)
             {
-                members = members.Where(m => m.CurrentRankTitle == rankFilter);
+                members = members.Where(m => m.TargetRankTitle == rankFilter);
             }
             var model = PopulateIndexViewModel(members);
             return View(model);

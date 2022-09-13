@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using OrdinationApp.Models;
 using OrdinationApp.ViewModels;
@@ -10,16 +11,30 @@ namespace OrdinationApp.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly UserManager<TrackerUser> userManager;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, UserManager<TrackerUser> userManager)
         {
             _logger = logger;
+            this.userManager = userManager;
         }
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<HomepageUserViewModel> Teams = new List<HomepageUserViewModel> { new HomepageUserViewModel("Michael Banjo", "Coder"), new HomepageUserViewModel("Yetunde Banjo", "Coder"), new HomepageUserViewModel("Samson Bodunrin", "Admin"), new HomepageUserViewModel("Kolade Banjo", "Admin"), new HomepageUserViewModel("Tunji Bello", "Coder") };
-            return View(Teams);
+            var users = userManager.Users.ToList();
+            List<ManageUserViewModel> model = new List<ManageUserViewModel>();
+            foreach (var user in users)
+            {
+                var newUser = new ManageUserViewModel();
+                newUser.user = user;
+                var userRoles = await userManager.GetRolesAsync(user);
+                foreach(var role in userRoles)
+                {
+                    newUser.Role = role;
+                }
+                model.Add(newUser);
+            }
+            return View(model);
         }
 
         public IActionResult Privacy()
