@@ -5,37 +5,32 @@
 <script src="~/yearpicker/yearpicker.js"></script>
 
 <section>
-    <div class="row">
-        <div class="col-8">
-            <form method="get">
-                <div class="form-group">
-                    <label>Select CMC: </label>
-                    <select class="form-control" id="cmcName" name="cmcName" asp-items="@Model.cmcList">
-                        <option value="" selected>None</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Select Province: </label>
-                    <select class="form-control" id="provinceName" name="provinceName" asp-items="@Model.provinceList">
-                        <option value="" selected>None</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Select Ordination Year: </label>
-                    <input type="number" name="year" id="year" class="form-control yearpicker" value=@DateTime.Now.Year />
-                </div>
-                <button class="btn btn-success" type="submit">Apply Filters</button>
-            </form>
+    <form method="get">
+        <div class="form-group my-3">
+            <label>Select CMC: </label>
+            <select class="form-control w-25" id="cmcName" name="cmcName" asp-items="@Model.cmcList">
+                <option value="" selected>None</option>
+            </select>
         </div>
-        <div class="col-4">
-            <a class="btn btn-success float-end" asp-controller="Payments" asp-action="ExportReport">Export To Excel</a>
+        <div class="form-group my-3">
+            <label>Select Province: </label>
+            <select class="form-control w-25" id="provinceName" name="provinceName" asp-items="@Model.provinceList">
+                <option value="" selected>None</option>
+            </select>
         </div>
-    </div>
+        <div class="form-group my-3">
+            <label>Select Ordination Year: </label>
+            <input type="number" name="year" id="year" class="form-control w-25 yearpicker" value=@DateTime.Now.Year />
+        </div>
+        <button class="btn btn-success" type="submit">Apply Filters</button>
+    </form>
 
 
     @if (@Model.paymentRecords.Count() > 0)
     {
-        <table class="table table-striped">
+        <a class="btn btn-success float-end" asp-controller="Payments" asp-action="ExportReport">Export To Excel</a>
+
+        <table class="table table-striped mt-5 mb-3">
             <thead>
             <th>Membership ID</th>
             <th>Rank</th>

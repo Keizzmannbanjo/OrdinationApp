@@ -8,7 +8,7 @@ using OrdinationApp.ViewModels;
 
 namespace OrdinationApp.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
     public class DataController : Controller
     {
         private IProvinceServices _provinceServices;

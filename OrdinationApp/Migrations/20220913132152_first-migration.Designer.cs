@@ -12,8 +12,8 @@ using OrdinationApp.Data;
 namespace OrdinationApp.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220822130425_changed-rank-bill-relationss")]
-    partial class changedrankbillrelationss
+    [Migration("20220913132152_first-migration")]
+    partial class firstmigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -49,6 +49,22 @@ namespace OrdinationApp.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "44534c14-94b8-4473-994c-64021fd48e35",
+                            ConcurrencyStamp = "02bad992-a7fc-4fe2-a1d2-99e12cc6e0b1",
+                            Name = "Coder",
+                            NormalizedName = "CODER"
+                        },
+                        new
+                        {
+                            Id = "63d12812-4969-4560-87ef-8844bcb3928b",
+                            ConcurrencyStamp = "62d8ad3c-5c08-48b6-9360-97c78244b9cd",
+                            Name = "Admin",
+                            NormalizedName = "ADMIN"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -581,14 +597,6 @@ namespace OrdinationApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Province")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Rank")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

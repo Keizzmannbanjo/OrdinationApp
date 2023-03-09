@@ -1,4 +1,6 @@
-﻿
+﻿@using Microsoft.AspNetCore.Identity;
+@inject UserManager<TrackerUser> userManager;
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -41,6 +43,8 @@
                             <a class="nav-link text-light dropdown-toggle" data-bs-toggle="dropdown">Users</a>
                             <ul class="dropdown-menu bg-secondary">
                                 <li><a class="text-light nav-link dropdown-item" asp-controller="Admin" asp-action="Register">Register New User</a></li>
+                                <li><a class="text-light nav-link dropdown-item" asp-controller="Admin" asp-action="ManageUsers">Manage Users</a></li>
+                                    <li><a class="text-light nav-link dropdown-item" asp-controller="Admin" asp-action="ChangePassword" asp-route-name="@User.Identity.Name">Change Password</a></li>
                                 <li><a asp-controller="Admin" asp-action="Logout" class="text-light nav-link dropdown-item">Logout</a></li>
                             </ul>
                         </li>

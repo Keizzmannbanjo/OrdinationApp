@@ -1,12 +1,15 @@
 ﻿@using Microsoft.AspNetCore.Identity;
 @inject SignInManager<TrackerUser> signInManager;
-@model List<OrdinationApp.ViewModels.HomepageUserViewModel>;
+@inject UserManager<TrackerUser> userManager;
 @{
     ViewData["Title"] = "Home Page";
 }
 
 <section class="welcome w-100 p-3 mt-4 mb-4 d-flex flex-column justify-content-center">
     <h1 class="welcome-text">Welcome, @User.Identity.Name <br />to the <br />Ordination <br />Tracker System</h1>
+    <div>
+        <a asp-controller="Approvals" asp-action="Index" class="btn btn-success">View Approvals</a> <a asp-controller="Payments" asp-action="UpdatePayments" class="btn ml-3 btn-info">Update Payments</a>
+    </div>
 </section>
 
 <section class="mt-5 mb-5">
@@ -19,7 +22,7 @@
                     <img src="~/images/man.png" class="user-img w-50 mt-1 mx-auto d-block" />
                 </div>
                 <h3 class="text-center">
-                    @obj.UserName
+                    @obj.user.UserName
                 </h3>
                 <p class="text-center text-danger">@obj.Role</p>
             </div>

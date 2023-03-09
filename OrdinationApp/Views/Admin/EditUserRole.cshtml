@@ -1,0 +1,11 @@
+﻿@model OrdinationApp.ViewModels.EditUserRoleViewModel;
+
+<form method="post" class="w-25">
+    <input hidden asp-for="userId" />
+    <div class="form-group">
+        <label>Select New Role: </label>
+        <select asp-for="role" asp-items="@Model.roleList" class="form-control">
+        </select>
+    </div>
+    <button type="submit" class="btn btn-success mt-3">Save Change</button>
+</form>

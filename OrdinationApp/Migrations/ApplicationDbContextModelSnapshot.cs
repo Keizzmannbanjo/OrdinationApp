@@ -51,15 +51,15 @@ namespace OrdinationApp.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "2141d30e-f5f2-4494-a683-ab9224610844",
-                            ConcurrencyStamp = "0dc82e8d-de6e-443b-8bc0-8bc20249a0c7",
+                            Id = "44534c14-94b8-4473-994c-64021fd48e35",
+                            ConcurrencyStamp = "02bad992-a7fc-4fe2-a1d2-99e12cc6e0b1",
                             Name = "Coder",
                             NormalizedName = "CODER"
                         },
                         new
                         {
-                            Id = "d922965c-50e2-4533-ba7d-67b6964d2297",
-                            ConcurrencyStamp = "a99b154d-2519-4de5-8616-5431e7102bce",
+                            Id = "63d12812-4969-4560-87ef-8844bcb3928b",
+                            ConcurrencyStamp = "62d8ad3c-5c08-48b6-9360-97c78244b9cd",
                             Name = "Admin",
                             NormalizedName = "ADMIN"
                         });
@@ -595,14 +595,6 @@ namespace OrdinationApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Province")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Rank")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

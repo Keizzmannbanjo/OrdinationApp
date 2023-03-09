@@ -16,7 +16,7 @@ builder.Services.AddSession(options =>
 
 builder.Services.AddDbContext<ApplicationDbContext>(
     options => options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
-builder.Services.AddIdentity<TrackerUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddIdentity<TrackerUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
 builder.Services.AddScoped<IMemberServices, MemberServices>();
 builder.Services.AddScoped<IProvinceServices, ProvinceServices>();
@@ -24,6 +24,8 @@ builder.Services.AddScoped<IRankServices, RankServices>();
 builder.Services.AddScoped<ICMCServices, CMCServices>();
 builder.Services.AddScoped<IOrdinationBillServices, OrdinationBillServices>();
 builder.Services.AddScoped<IPaymentRecordsServices, PaymentRecordsServices>();
+builder.Services.Configure<DataProtectionTokenProviderOptions>(opt =>
+   opt.TokenLifespan = TimeSpan.FromMinutes(2));
 builder.Services.ConfigureApplicationCookie(
     config =>
     {

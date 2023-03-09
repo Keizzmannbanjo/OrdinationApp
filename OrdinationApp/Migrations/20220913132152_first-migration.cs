@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace OrdinationApp.Migrations
 {
-    public partial class changedrankbillrelationss : Migration
+    public partial class firstmigration : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -32,8 +32,6 @@ namespace OrdinationApp.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Surname = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Rank = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Province = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "nvarchar(256)", maxLength: 256, nullable: true),
@@ -291,6 +289,15 @@ namespace OrdinationApp.Migrations
                         principalTable: "Ranks",
                         principalColumn: "Title",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "44534c14-94b8-4473-994c-64021fd48e35", "02bad992-a7fc-4fe2-a1d2-99e12cc6e0b1", "Coder", "CODER" },
+                    { "63d12812-4969-4560-87ef-8844bcb3928b", "62d8ad3c-5c08-48b6-9360-97c78244b9cd", "Admin", "ADMIN" }
                 });
 
             migrationBuilder.InsertData(
