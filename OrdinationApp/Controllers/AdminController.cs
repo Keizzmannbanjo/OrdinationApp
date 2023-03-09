@@ -57,7 +57,7 @@ namespace OrdinationApp.Controllers
             return RedirectToAction("Login");
         }
 
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public IActionResult Register()
         {
             var model = PopupateRegisterUserViewModel();
@@ -66,7 +66,7 @@ namespace OrdinationApp.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize(Roles = "Admin")]
+        //[Authorize(Roles = "Admin")]
         public async Task<IActionResult> Register(RegisterUserViewModel model)
         {
             if (ModelState.IsValid)
@@ -143,7 +143,7 @@ namespace OrdinationApp.Controllers
                 var role = await roleManager.FindByIdAsync(model.role);
                 if (await userManager.IsInRoleAsync(user, role.Name))
                 {
-                    return View(PopulateEditUserRoleViewModel(model.userId));
+                    return RedirectToAction("ManageUsers");
                 }
                 else
                 {
@@ -162,7 +162,7 @@ namespace OrdinationApp.Controllers
 
         public async Task<IActionResult> ChangePassword(string name)
         {
-            var user= await userManager.FindByNameAsync(name);
+            var user = await userManager.FindByNameAsync(name);
             var model = new ChangePasswordViewModel { userName = user.UserName };
             return View(model);
         }
@@ -199,41 +199,68 @@ namespace OrdinationApp.Controllers
             if (ModelState.IsValid)
             {
                 var user = await userManager.FindByEmailAsync(model.Email);
-                if(user.UserName == model.Username)
+                if (user.UserName == model.Username)
                 {
                     var token = await userManager.GeneratePasswordResetTokenAsync(user);
-                    var passwordResetLink = Url.Action("ResetPassword", "Admin", new { email = model.Email, token = token }, Request.Scheme);
+                    return RedirectToAction("ResetPassword", new { token = token, email = model.Email });
                 }
                 return View();
             }
             return View();
         }
 
+        public IActionResult ResetPassword(string token, string email)
+        {
+            var model = new ResetPasswordViewModel { Email = email, Token = token };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await userManager.FindByEmailAsync(model.Email);
+                if (user != null)
+                {
+                    var result = await userManager.ResetPasswordAsync(user, model.Token, model.ConfirmNewPassword);
+                    if (result.Succeeded)
+                    {
+                        return RedirectToAction("Index","Home");
+                    }
+                    return View(model);
+                }
+            }
+            return View(model);
+        }
+
+
         private RegisterUserViewModel PopupateRegisterUserViewModel()
         {
             IEnumerable<IdentityRole> roles = roleManager.Roles;
 
             var roleList = new List<SelectListItem>();
-      
+
             foreach (var role in roles)
             {
                 var item = new SelectListItem { Text = role.Name, Value = role.Id };
                 roleList.Add(item);
             }
-            var model = new RegisterUserViewModel {RoleList = roleList };
+            var model = new RegisterUserViewModel { RoleList = roleList };
             return model;
         }
         private RegisterUserViewModel PopupateRegisterUserViewModel(RegisterUserViewModel model)
         {
             IEnumerable<IdentityRole> roles = roleManager.Roles;
             var roleList = new List<SelectListItem>();
-         
+
             foreach (var role in roles)
             {
                 var item = new SelectListItem { Text = role.Name, Value = role.Id };
                 roleList.Add(item);
             }
-        
+
             model.RoleList = roleList;
             return model;
         }
